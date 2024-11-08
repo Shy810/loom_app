@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    develop:
+      watch:
+        - path: ./package.json
+          action: rebuild
+        - path: ./next.config.mjs
+          action: rebuild
+        - path: ./package-lock.json
+          action: rebuild
+        - path: ./.env.local
+          action: rebuild
+        - path: ./tailwind.config.ts
+          action: sync
+        - path: ./components.json
+          action: rebuild
+        - path: ./middleware.ts
+          action: sync
+        - path: .
+          target: /app
+          action: sync
+        - path: .
+          target: /components
+          action: sync
+
+volumes:
+  tasked:
